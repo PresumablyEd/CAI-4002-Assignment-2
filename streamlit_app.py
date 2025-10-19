@@ -145,7 +145,7 @@ with st.sidebar:
     st.session_state.algo_p1 = st.selectbox("Algorithm for X", ["Minimax", "Alpha-Beta"], index=0)
     st.session_state.algo_p2 = st.selectbox("Algorithm for O", ["Minimax", "Alpha-Beta"], index=1)
     st.session_state.human_plays = st.selectbox("Human plays as", ["X", "O"], index=0)
-    st.session_state.speed = st.slider("AI auto-play speed (sec/move)", 0.1, 2.0, st.session_state.speed, 0.1)
+    # (Removed) st.session_state.speed = st.slider("AI auto-play speed (sec/move)", 0.1, 2.0, st.session_state.speed, 0.1)
 
 
 st.markdown("""
@@ -231,7 +231,7 @@ def render_cell(i: int, winning_cells=None):
         key=f"cell_{i}",
         disabled=disabled,
         type="primary" if highlight else "secondary",
-        use_container_width=True,  # changed from width='stretch'
+        use_container_width=True,  # keep full-width look
     )
     if btn and is_human_turn():
         make_move(i, st.session_state.current)
@@ -255,7 +255,7 @@ center = st.columns([1, 1, 1])
 with center[1]:
     with st.container():
         st.markdown('<div class="restart-btn">', unsafe_allow_html=True)
-        if st.button("🔄 Restart", key="restart", use_container_width=True):  # changed
+        if st.button("🔄 Restart", key="restart", use_container_width=True):
             soft_reset()
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
@@ -272,8 +272,10 @@ elif status == "draw":
 if st.session_state.history:
     import pandas as pd
     df = pd.DataFrame(st.session_state.history)
+    # Replace None values (e.g., human moves) with "—" for cleaner display
+    df = df.fillna("—")
     st.subheader("📊 Performance per move")
-    st.dataframe(df, use_container_width=True)  # changed
+    st.dataframe(df, use_container_width=True)
 
 # Autoplay (AI vs AI)
 if st.session_state.mode == "AI vs AI" and not st.session_state.game_over:
