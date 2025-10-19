@@ -229,9 +229,9 @@ def render_cell(i: int, winning_cells=None):
     btn = st.button(
         mark if mark != " " else " ",
         key=f"cell_{i}",
-        width='stretch',
         disabled=disabled,
         type="primary" if highlight else "secondary",
+        use_container_width=True,  # changed from width='stretch'
     )
     if btn and is_human_turn():
         make_move(i, st.session_state.current)
@@ -255,7 +255,7 @@ center = st.columns([1, 1, 1])
 with center[1]:
     with st.container():
         st.markdown('<div class="restart-btn">', unsafe_allow_html=True)
-        if st.button("🔄 Restart", width='stretch', key="restart"):
+        if st.button("🔄 Restart", key="restart", use_container_width=True):  # changed
             soft_reset()
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
@@ -273,7 +273,7 @@ if st.session_state.history:
     import pandas as pd
     df = pd.DataFrame(st.session_state.history)
     st.subheader("📊 Performance per move")
-    st.dataframe(df, width='stretch')
+    st.dataframe(df, use_container_width=True)  # changed
 
 # Autoplay (AI vs AI)
 if st.session_state.mode == "AI vs AI" and not st.session_state.game_over:
