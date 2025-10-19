@@ -70,7 +70,11 @@ pip install -r requirements.txt
 
 ## Running the Application
 
-### Web Application (Recommended)
+### Website (Recommended)
+
+    https://cai-4002-assignment-2-bv85p2x4e5dxq8ptfuxj9n.streamlit.app/
+    
+### Web Application
 ```bash
 streamlit run streamlit_app.py
 ```
